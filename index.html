@@ -9,7 +9,6 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      line-height: 1.6;
       background-color: #ffffff;
       color: #1e1e1e;
     }
@@ -20,11 +19,10 @@
       text-align: center;
     }
     header h1 {
-      color: #ffffff;
       font-weight: bold;
+      margin: 0;
     }
     header p {
-      color: #ffffff;
       font-size: 1.1rem;
       font-weight: bold;
     }
@@ -38,8 +36,10 @@
       margin: 0 15px;
       text-decoration: none;
       font-weight: bold;
+      cursor: pointer;
     }
     section {
+      display: none;
       padding: 40px 20px;
       max-width: 800px;
       margin: auto;
@@ -47,7 +47,9 @@
       margin-bottom: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      color: #1e1e1e;
+    }
+    section.active {
+      display: block;
     }
     h1, h2 {
       color: #1e1e1e;
@@ -62,6 +64,28 @@
       color: #ffffff;
     }
   </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const sections = document.querySelectorAll("section");
+      const navLinks = document.querySelectorAll("nav a");
+
+      function showSection(id) {
+        sections.forEach(section => {
+          section.classList.remove("active");
+        });
+        document.querySelector(`#${id}`).classList.add("active");
+      }
+
+      navLinks.forEach(link => {
+        link.addEventListener("click", () => {
+          const id = link.getAttribute("href").substring(1);
+          showSection(id);
+        });
+      });
+
+      showSection("about");
+    });
+  </script>
 </head>
 <body>
   <header>
