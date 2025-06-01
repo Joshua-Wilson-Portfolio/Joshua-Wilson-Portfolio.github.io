@@ -28,12 +28,6 @@
       font-size: 1.1rem;
       font-weight: bold;
     }
-    header h2 {
-      font-size: 1.4rem;
-      color: #ffffff;
-      font-weight: 600;
-      margin-top: 10px;
-    }
     nav {
       background: #333;
       padding: 10px;
@@ -45,6 +39,10 @@
       text-decoration: none;
       font-weight: bold;
       cursor: pointer;
+    }
+    nav a.active {
+      color: #1abc9c;
+      text-decoration: underline;
     }
     section {
       display: none;
@@ -81,7 +79,11 @@
         sections.forEach(section => {
           section.classList.remove("active");
         });
+        navLinks.forEach(link => {
+          link.classList.remove("active");
+        });
         document.querySelector(`#${id}`).classList.add("active");
+        document.querySelector(`nav a[href='#${id}']`).classList.add("active");
       }
 
       navLinks.forEach(link => {
@@ -100,7 +102,6 @@
   <header>
     <h1 style="color: #ffffff;">Joshua Wilson</h1>
     <p>Data Analyst | Python, R, SQL, Tableau, Power BI, Excel</p>
-    <h2>Portfolio</h2>
   </header>
 
   <nav>
