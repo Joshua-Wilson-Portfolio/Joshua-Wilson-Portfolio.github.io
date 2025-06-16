@@ -172,78 +172,29 @@
    
     <p>Here you will see my SQL project focused on cleaning, enhancing, and analyzing two Spotify-related datasets: edmhits and rymcombined. You will see how I import, clean and manage these data sets. Along with querying and joining.  </p>
    
- <div class="jump-menu">
-      <strong>Jump to:</strong>
-      <a href="#db-setup">Database Setup</a>
-      <a href="#inspect">Inspection</a>
-      <a href="#clean-edmhits">Clean edmhits</a>
-      <a href="#clean-rym">Clean rymcombined</a>
-      <a href="#dedupe">De-duplicate</a>
-      <a href="#missing-values">Missing Values</a>
-      <a href="#join">Join Tables</a>
-    </div>
+   <!-- ▸ Jump menu appears ONLY in the SQL section -->
+  <div class="jump-menu">
+    <strong>Jump to:</strong>
+    <a href="#create-db">Database Setup</a>
+    <a href="#inspect-edmhits">Inspection</a>
+    <a href="#clean-tempo">Clean edmhits</a>
+    <a href="#clean-rym">Clean rymcombined</a>
+    <a href="#remove-duplicates">De-duplicate</a>
+    <a href="#update-missing">Missing Values</a>
+    <a href="#join">Join Tables</a>
+  </div>
 
-    <ul>
-      <li id="db-setup"><strong>Database Setup</strong>: Created <code>spotify_data</code> with two tables: <code>edmhits</code> and <code>rymcombined</code>.</li>
-      <li id="inspect"><strong>Inspection</strong>: Inspected schema with <code>DESCRIBE</code> and <code>SELECT *</code> queries.</li>
-      <li id="clean-edmhits"><strong>Clean edmhits</strong>: Rounded tempo, dropped unused columns, and conducted filtering.</li>
-      <li id="clean-rym"><strong>Clean rymcombined</strong>: Dropped <code>Year</code>, added <code>revenue</code> column (streams × £0.0034).</li>
-      <li id="dedupe"><strong>De-duplicate</strong>: Used <code>ROW_NUMBER()</code> and <code>DELETE</code> to remove duplicates.</li>
-      <li id="missing-values"><strong>Missing Values</strong>: Identified and updated missing <code>Genre</code> entries.</li>
-      <li id="join"><strong>Join Tables</strong>: Performed <code>INNER JOIN</code> on <code>Track = Title</code> and sorted by <code>revenue</code>.</li>
-    </ul>
-   <h3>✅ Key Steps &amp; Achievements</h3>
+  <!-- ▸ ONE-LINE SUMMARY LIST — no IDs here -->
+  <ul class="sql-summary">
+    <li><strong>Database Setup</strong>: Created <code>spotify_data</code> with two tables: <code>edmhits</code> and <code>rymcombined</code>.</li>
+    <li><strong>Inspection</strong>: Inspected schema with <code>DESCRIBE</code> and <code>SELECT *</code> queries.</li>
+    <li><strong>Clean edmhits</strong>: Rounded tempo, dropped unused columns, filtering, etc.</li>
+    <li><strong>Clean rymcombined</strong>: Dropped <code>Year</code>, added <code>revenue</code> column.</li>
+    <li><strong>De-duplicate</strong>: Removed duplicates with <code>ROW_NUMBER()</code>.</li>
+    <li><strong>Missing Values</strong>: Filled in missing <code>Genre</code> entries.</li>
+    <li><strong>Join Tables</strong>: Performed <code>INNER JOIN</code> on <code>Track = Title</code>.</li>
+  </ul>
 
-<ul>
-  <li><strong>Database Setup</strong>
-    <ul>
-      <li>Created a new database <code>spotify_data</code>.</li>
-      <li>Imported two tables: <code>edmhits</code> and <code>rymcombined</code>.</li>
-    </ul>
-  </li>
-
-  <li><strong>Initial Table Inspection</strong>
-    <ul>
-      <li>Used <code>DESCRIBE</code> and sample <code>SELECT *</code> queries.</li>
-      <li>Reviewed column types, nullability, and sample rows.</li>
-    </ul>
-  </li>
-
-  <li><strong>Data Cleaning – <code>edmhits</code> Table</strong>
-    <ul>
-      <li>Rounded <code>Tempo</code> values for consistency.</li>
-      <li>Dropped unused columns <code>Mode</code> and <code>Time_Signature</code>.</li>
-      <li>Filtering &amp; counts:
-        <ul>
-          <li>Tracks by Oliver Heldens.</li>
-          <li>Tracks between 120 – 140 BPM.</li>
-          <li>Top 5 artists by average track duration.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-
-  <li><strong>Data Cleaning – <code>rymcombined</code> Table</strong>
-    <ul>
-      <li>Dropped redundant <code>Year</code> column.</li>
-      <li>Added generated <code>revenue</code> column (streams × £0.0034).</li>
-      <li>Verified changes with sample queries.</li>
-    </ul>
-  </li>
-
-  <li><strong>Duplicate Detection &amp; Removal</strong>
-    <ul>
-      <li>Identified duplicates by <code>title</code> + <code>artist</code>.</li>
-      <li>Added <code>track_id</code> primary key.</li>
-      <li>Used <code>ROW_NUMBER()</code> window function and <code>DELETE</code> to keep first instance.</li>
-    </ul>
-  </li>
-
-  <li><strong>Handling Missing Values</strong>
-    <ul>
-      <li>Queried rows with NULL <code>Genre</code>.</li>
-      <li>Updated genres for known tracks (e.g., Calvin Harris, deadmau5).</li>
-    </u
 
 
   <!-- 1 ─────────────────────────────────────────────────────────── -->
