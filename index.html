@@ -279,7 +279,7 @@ Popularity        int     YES         NULL
   <!-- 5 ─────────────────────────────────────────────────────────── -->
   <h3>5. General Filtering / Counts on edmhits</h3>
   <pre>
-<code>-- Tracks by Oliver Heldens
+<code> -- How many Tracks in this Table are produced by oliver heldens?
 SELECT COUNT(*) AS Total_OH_Tracks
 FROM edmhits
 WHERE artist = 'oliver heldens';</code>
@@ -293,7 +293,7 @@ Total_OH_Tracks
   </pre>
 
    <pre>
--- Tracks between 120–140 BPM
+-- How many tracks are between 120 and 140 bpm?
 SELECT COUNT(*) AS No_Tracks_Between_120_and_140
 FROM edmhits
 WHERE Tempo BETWEEN 120 AND 140;
@@ -465,6 +465,7 @@ FROM rymcombined
 GROUP BY title, artist
 HAVING COUNT(*)>1 LIMIT 10;
 </pre>
+   
 <pre><code>
 SELECT * 
 FROM rymcombined
