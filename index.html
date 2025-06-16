@@ -172,9 +172,10 @@
 
   <h3>1. Create & Use Database</h3>
   <pre>
-CREATE DATABASE spotify_data;
+-- Create Database for use 
+CREATE DATABASE spotify_data; 
 USE spotify_data;
-SHOW TABLES;
+SHOW TABLES; -- Ensure Table is correctly showing in Database
   </pre>
 <h4>🟢 Output </h4>
 <pre>
@@ -183,9 +184,11 @@ Tables_in_spotify_data
 edmhits
 rymcombined
 </pre>
+   
   <h3>2. Inspect edmhits Table</h3>
   <pre>
-DESCRIBE edmhits;
+-- View edmhits table details
+DESCRIBE edmhits; -- View metadata 
 </code></pre>
 <h4>🟢 Output </h4>
 <pre>
@@ -212,7 +215,7 @@ DESCRIBE edmhits;
 | Popularity        | int     | YES  |     | NULL    |       |
 +-------------------+---------+------+-----+---------+-------+
 </pre>
-<code>SELECT * FROM edmhits LIMIT 10; <code>
+<code>SELECT * FROM edmhits LIMIT 10; -- View first 10 rows of Data  <code>
   </pre>
 <h4>🟢 Output – (First 10 Rows)</h4>
 <pre>
@@ -229,17 +232,16 @@ Sun & Moon                                             | Above & Beyond| Acousti
 Thing Called Love - Original Mix                       | Above & Beyond| Group Therapy                              | 2011 | 329333   | 4              | 0.492        | 0.870  | 3   | -6.703   | 0    | 0.0367      | 0.00155      | 0.0157            | 0.3260   | 0.280   | 134.019 | 40
 We’re All We Need - SpectraSoul Remix                  | Above & Beyond| Anjunabeats presents Drum & Bass 01        | 2015 | 242790   | 4              | 0.546        | 0.870  | 5   | -4.551   | 0    | 0.0418      | 0.000159     | 0.159             | 0.4580   | 0.217   | 171.996 | 24
 </pre>
-
-
-
    
   <h3>3. Clean Tempo Values</h3>
   <pre>
-SET SQL_SAFE_UPDATES = 0;
-UPDATE edmhits SET Tempo = ROUND(Tempo);
-SET SQL_SAFE_UPDATES = 1;
+<code>SET SQL_SAFE_UPDATES = 0;  -- Temporarily disable safe update mode
+UPDATE edmhits
+SET Tempo= ROUND(Tempo);
+SELECT Tempo FROM edmhits LIMIT 5; -- View Data 
+SET SQL_SAFE_UPDATES = 1; </code
   </pre>
-<h4>🟢 Output – (View first 5 updated Tempo Values) (Sample)</h4>
+<h4>🟢 Output – (View first 5 updated Tempo Values) </h4>
 <pre>
 Tempo
 -----
@@ -252,11 +254,11 @@ Tempo
   
   <h3>4. Remove Unused Columns</h3>
   <pre>
-ALTER TABLE edmhits 
+</code>ALTER TABLE edmhits 
 DROP COLUMN Mode;
 ALTER TABLE edmhits
 DROP COLUMN Time_Signature;
-DESCRIBE edmhits;
+DESCRIBE edmhits; </code>
   </pre>
 <h4>🟢 Output – (Updated Fields) </h4>
 <pre>
