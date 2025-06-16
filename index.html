@@ -4,51 +4,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Joshua Wilson | Data Analyst Portfolio</title>
+
   <style>
+    /* ───────── Global helpers ───────── */
+    html {
+      scroll-behavior: smooth;     /* nice smooth scrolling */
+      scroll-padding-top: 120px;   /* keeps anchor targets below sticky bar */
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #ffffff;
+      background: #ffffff;
       color: #1e1e1e;
     }
-    header {
-      background-color: #1abc9c;
-      color: #ffffff;
-      padding: 20px 0;
+
+    /* ───────── Sticky header ───────── */
+    .site-header {                /* NEW wrapper that sticks */
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #1abc9c;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .brand {                      /* name + tagline */
       text-align: center;
-    }
-    header h1 {
+      padding: 20px 0;
       color: #ffffff;
-      font-weight: bold;
-      margin: 0;
     }
-    header p {
-      color: #ffffff;
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
-    nav {
+    .brand h1 { margin: 0; font-weight: bold; }
+    .brand p  { margin: 0; font-size: 1.1rem; font-weight: bold; }
+
+    /* ───────── Nav bar ───────── */
+    .main-nav {
       background: #333;
       padding: 10px;
       text-align: center;
     }
-    nav a {
+    .main-nav a {
       color: #ffffff;
       margin: 0 15px;
       text-decoration: none;
       font-weight: bold;
       cursor: pointer;
     }
-    nav a:hover {
+    .main-nav a:hover {
       color: #1abc9c;
       border-bottom: 2px solid #1abc9c;
       transition: all 0.2s ease-in-out;
     }
-    nav a.active {
+    .main-nav a.active {
       color: #1abc9c;
       text-decoration: underline;
     }
+
+    /* ───────── Existing styles (unchanged) ───────── */
     section {
       display: none;
       padding: 40px 20px;
@@ -57,69 +68,60 @@
       background: #f9f9f9;
       margin-bottom: 20px;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    section.active {
-      display: block;
-    }
-    h1, h2 {
-      color: #1e1e1e;
-    }
-    ul {
-      padding-left: 20px;
-    }
+    section.active { display: block; }
+    h1, h2 { color: #1e1e1e; }
+    ul { padding-left: 20px; }
     footer {
       text-align: center;
       padding: 20px;
-      background-color: #1e1e1e;
+      background: #1e1e1e;
       color: #ffffff;
     }
   </style>
+
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", () => {
       const sections = document.querySelectorAll("section");
-      const navLinks = document.querySelectorAll("nav a");
+      const navLinks = document.querySelectorAll(".main-nav a");
 
       function showSection(id) {
-        sections.forEach(section => {
-          section.classList.remove("active");
-        });
-        navLinks.forEach(link => {
-          link.classList.remove("active");
-        });
-        document.querySelector(`#${id}`).classList.add("active");
-        document.querySelector(`nav a[href='#${id}']`).classList.add("active");
+        sections.forEach(s => s.classList.toggle("active", s.id === id));
+        navLinks.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + id));
       }
 
       navLinks.forEach(link => {
-        link.addEventListener("click", (e) => {
+        link.addEventListener("click", e => {
           e.preventDefault();
-          const id = link.getAttribute("href").substring(1);
-          showSection(id);
+          showSection(link.getAttribute("href").substring(1));
         });
       });
 
-      showSection("about");
+      showSection("about");   // default tab
     });
   </script>
 </head>
 <body>
-  <header>
-    <h1 style="color: #ffffff;">Joshua Wilson</h1>
-    <p>Data Analyst | Python, R, SQL, Tableau, Power BI, Excel</p>
-  </header>
 
-  <nav>
-    <a href="#about">About Me</a>
-    <a href="#python">Python</a>
-    <a href="#r">R</a>
-    <a href="#sql">SQL</a>
-    <a href="#tableau">Tableau</a>
-    <a href="#powerbi">Power BI</a>
-    <a href="#excel">Excel</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <!-- ───────── Sticky header (name + nav) ───────── -->
+  <div class="site-header">
+    <div class="brand">
+      <h1>Joshua Wilson</h1>
+      <p>Data Analyst | Python, R, SQL, Tableau, Power BI, Excel</p>
+    </div>
 
+    <nav class="main-nav">
+      <a href="#about">About Me</a>
+      <a href="#python">Python</a>
+      <a href="#r">R</a>
+      <a href="#sql">SQL</a>
+      <a href="#tableau">Tableau</a>
+      <a href="#powerbi">Power BI</a>
+      <a href="#excel">Excel</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
   <section id="about">
     <h2 style="margin-top: 40px; margin-bottom: 20px;">About Me</h2>
     <img src="JWAVATAR.jpg" alt="Joshua Wilson" style="width: 150px; border-radius: 50%; display: block; margin: 0 auto 20px auto;" />
