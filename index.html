@@ -326,85 +326,56 @@ The Chemical Brothers | 321516.4000
 Paul Oakenfold        | 317104.3333
 </pre>
 
-<!-- ────────────────────────────────────────────────────────────── -->
-<!--          SECTION: rymcombined Cleaning & Analysis            -->
-<!-- ────────────────────────────────────────────────────────────── -->
-<h2>rymcombined Table – Cleaning & Analysis</h2>
 
-<h3>6. Clean & Enhance rymcombined Table</h3>
-
-<pre><code>
+<!-- 6. Clean & Enhance rymcombined Table                          -->
+<h3>6. Clean & Enhance <code>rymcombined</code> Table</h3>
+<pre>
 -- View rymcombined table details
-DESCRIBE rymcombined; -- View metadata 
-SELECT * FROM rymcombined LIMIT 3; -- View Data
+DESCRIBE rymcombined;                -- View metadata 
+SELECT * FROM rymcombined LIMIT 3;   -- View Data
+</pre>
+<h4>🟢 Output – (DESCRIBE rymcombined)</h4>
+<pre>
+<!-- paste metadata output here -->
+</pre>
+<h4>🟢 Output – (First 3 Rows)</h4>
+<pre>
+<!-- paste first-rows output here -->
+</pre>
 
-ALTER TABLE rymcombined -- Remove irrelvant column Year, as already exists in edmhits table and many NULL Values for Year in rymcombined table
+<!-- 7. Remove Redundant Column ---------------------------------- -->
+<h3>7. Remove Redundant Column <code>Year</code></h3>
+<pre>
+ALTER TABLE rymcombined   -- Remove column that is redundant / mostly NULL
 DROP COLUMN Year;
 
-SHOW TABLES; -- Check columns dropped successfully 
+SHOW TABLES;              -- Check columns dropped successfully
+</pre>
+<h4>🟢 Output – (Column <code>Year</code> Dropped)</h4>
+<pre>
+<!-- paste confirmation output here -->
+</pre>
 
-/* I want to add an aditional column in my table namely Revenue for Total Spotify Revenue paid per track
-On Average Spotify pays £0.0034 per stream */
+<!-- 8. Add Generated Revenue Column ----------------------------- -->
+<h3>8. Add Generated <code>revenue</code> Column</h3>
+<pre>
+/* Add total Spotify revenue per track (streams × £0.0034) */
 ALTER TABLE rymcombined
-ADD COLUMN revenue FLOAT 
+ADD COLUMN revenue FLOAT
 GENERATED ALWAYS AS (`Streams(Millions)` * 0.0034) STORED;
 
-SELECT * FROM rymcombined; -- Check revenue column and values updated successfully 
-
--- I want to ensure no duplicates in the song title, lets first glance data for potential duplicates 
-SELECT * FROM rymcombined ORDER BY title;
-
-SELECT title, artist , COUNT(*) as duplicate_count -- Lets view all duplicates
+SELECT Title, revenue
 FROM rymcombined
-GROUP BY title, artist
-HAVING COUNT(*)>1;
+LIMIT 5;    -- Verify new column
+</pre>
+<h4>🟢 Output – (Revenu
 
--- Lets remove these duplicates
-ALTER TABLE rymcombined ADD COLUMN track_id INT AUTO_INCREMENT PRIMARY KEY; -- Create a Primary Key for this Table with a row identifier columnn namely title_id 
 
-SET SQL_SAFE_UPDATES = 0; -- Temporarily disable safe update mode
-WITH RankedSongs AS (
-  SELECT *, 
-         ROW_NUMBER() OVER (PARTITION BY title, artist ORDER BY track_id) AS rn
-  FROM rymcombined
-)
-DELETE FROM rymcombined
-WHERE track_id IN (
-  SELECT track_id FROM RankedSongs WHERE rn > 1
-);
-SET SQL_SAFE_UPDATES = 1; -- Turn safe update mode back on
 
-SELECT title, artist , COUNT(*) as duplicate_count -- Ensure all duplicates removed successfully 
-FROM rymcombined
-GROUP BY title, artist
-HAVING COUNT(*)>1;
 
-SELECT * FROM rymcombined ORDER BY title; -- Lets view again to ensure no duplicates upon glance of data 
 
--- Lets add some missing values
-SELECT title, artist, track_id, Genre FROM rymcombined ORDER BY Genre ASC;
 
--- Update Calvin Harris - I'm Not Alone 2019 Remix Genre from NULL to Progressive House
-SELECT * FROM rymcombined WHERE track_id = 4141;
-UPDATE rymcombined 
-SET Genre ='Progressive House'
-WHERE track_id = 4141;
-SELECT * FROM rymcombined WHERE track_id = 4141;
-
--- Update deadmau5 - 4aware Genre from NULL to Progressive House
-SELECT * FROM rymcombined WHERE track_id = 4132;
-UPDATE rymcombined
-SET Genre ='Progressive House'
-WHERE track_id = 4132;
-SELECT * FROM rymcombined WHERE track_id = 4132;
-
--- I need to combine my 2 tables to ensure appropriate data collated for analysis 
-SELECT * FROM edmhits
-INNER JOIN rymcombined
-ON edmhits.Track=rymcombined.Title;
-</code></pre>
-
-   
+  
 </section>
 
 
