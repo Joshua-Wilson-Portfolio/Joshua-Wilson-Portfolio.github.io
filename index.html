@@ -291,19 +291,21 @@ Total_OH_Tracks
 ---------------
 7
   </pre>
-</code> -- Tracks between 120–140 BPM
+
+   <pre>
+-- Tracks between 120–140 BPM
 SELECT COUNT(*) AS No_Tracks_Between_120_and_140
 FROM edmhits
-WHERE Tempo BETWEEN 120 AND 140; </code>
-  </pre>
+WHERE Tempo BETWEEN 120 AND 140;
+</pre>
 
-  <h4>🟢 Output – (No_Tracks_Between_120_and_140)</h4>
-  <pre>
+<h4>🟢 Output – (No_Tracks_Between_120_and_140)</h4>
+<pre>
 No_Tracks_Between_120_and_140
 -----------------------------
 421
-    
-  </pre>
+</pre>
+
    
 <code> -- Find the top 5 artists by average track duration
 SELECT Artist, AVG(duration)
@@ -324,8 +326,82 @@ The Chemical Brothers | 321516.4000
 Paul Oakenfold        | 317104.3333
 </pre>
 
+<!-- ────────────────────────────────────────────────────────────── -->
+<!--          SECTION: rymcombined Cleaning & Analysis            -->
+<!-- ────────────────────────────────────────────────────────────── -->
+<h2>rymcombined Table – Cleaning & Analysis</h2>
 
+<h3>6. Clean & Enhance <code>rymcombined</code> Table</h3>
+<pre><code>
+-- View rymcombined table details
+DESCRIBE rymcombined; -- View metadata 
+SELECT * FROM rymcombined LIMIT 3; -- View Data
 
+ALTER TABLE rymcombined -- Remove irrelvant column Year, as already exists in edmhits table and many NULL Values for Year in rymcombined table
+DROP COLUMN Year;
+
+SHOW TABLES; -- Check columns dropped successfully 
+
+/* I want to add an aditional column in my table namely Revenue for Total Spotify Revenue paid per track
+On Average Spotify pays £0.0034 per stream */
+ALTER TABLE rymcombined
+ADD COLUMN revenue FLOAT 
+GENERATED ALWAYS AS (`Streams(Millions)` * 0.0034) STORED;
+
+SELECT * FROM rymcombined; -- Check revenue column and values updated successfully 
+
+-- I want to ensure no duplicates in the song title, lets first glance data for potential duplicates 
+SELECT * FROM rymcombined ORDER BY title;
+
+SELECT title, artist , COUNT(*) as duplicate_count -- Lets view all duplicates
+FROM rymcombined
+GROUP BY title, artist
+HAVING COUNT(*)>1;
+
+-- Lets remove these duplicates
+ALTER TABLE rymcombined ADD COLUMN track_id INT AUTO_INCREMENT PRIMARY KEY; -- Create a Primary Key for this Table with a row identifier columnn namely title_id 
+
+SET SQL_SAFE_UPDATES = 0; -- Temporarily disable safe update mode
+WITH RankedSongs AS (
+  SELECT *, 
+         ROW_NUMBER() OVER (PARTITION BY title, artist ORDER BY track_id) AS rn
+  FROM rymcombined
+)
+DELETE FROM rymcombined
+WHERE track_id IN (
+  SELECT track_id FROM RankedSongs WHERE rn > 1
+);
+SET SQL_SAFE_UPDATES = 1; -- Turn safe update mode back on
+
+SELECT title, artist , COUNT(*) as duplicate_count -- Ensure all duplicates removed successfully 
+FROM rymcombined
+GROUP BY title, artist
+HAVING COUNT(*)>1;
+
+SELECT * FROM rymcombined ORDER BY title; -- Lets view again to ensure no duplicates upon glance of data 
+
+-- Lets add some missing values
+SELECT title, artist, track_id, Genre FROM rymcombined ORDER BY Genre ASC;
+
+-- Update Calvin Harris - I'm Not Alone 2019 Remix Genre from NULL to Progressive House
+SELECT * FROM rymcombined WHERE track_id = 4141;
+UPDATE rymcombined 
+SET Genre ='Progressive House'
+WHERE track_id = 4141;
+SELECT * FROM rymcombined WHERE track_id = 4141;
+
+-- Update deadmau5 - 4aware Genre from NULL to Progressive House
+SELECT * FROM rymcombined WHERE track_id = 4132;
+UPDATE rymcombined
+SET Genre ='Progressive House'
+WHERE track_id = 4132;
+SELECT * FROM rymcombined WHERE track_id = 4132;
+
+-- I need to combine my 2 tables to ensure appropriate data collated for analysis 
+SELECT * FROM edmhits
+INNER JOIN rymcombined
+ON edmhits.Track=rymcombined.Title;
+</code></pre>
 
    
 </section>
