@@ -158,7 +158,37 @@
     Overall, the project demonstrates how Python can drive data-informed decisions through efficient data wrangling, visual exploration, and statistical interpretation — helping identify patterns, seasonality, and sales drivers.
   </p>
 </section>
+ <div class="tab-buttons">
+    <button class="tab-link active" onclick="showTab('code')">💻 Code</button>
+    <button class="tab-link" onclick="showTab('output')">📊 Output</button>
+  </div>
 
+  <div id="code" class="tab-content active">
+    <h3>SQL Script</h3>
+    <pre><code>-- Sample SQL
+SELECT artist, AVG(duration)
+FROM edmhits
+GROUP BY artist
+ORDER BY AVG(duration) DESC
+LIMIT 5;
+    </code></pre>
+  </div>
+
+  <div id="output" class="tab-content">
+    <h3>Query Output</h3>
+    <pre>
++-------------------+---------------+
+| Artist            | avg_duration |
++-------------------+---------------+
+| deadmau5          | 510.3         |
+| Calvin Harris     | 498.2         |
+| Eric Prydz        | 487.6         |
+| Daft Punk         | 475.4         |
+| Disclosure        | 468.9         |
++-------------------+---------------+
+    </pre>
+  </div>
+</section>
 
   <section id="r">
     <h2>R Projects</h2>
@@ -171,56 +201,7 @@
  <section id="sql">
   <h2>SQL Projects – SPOTIFY – UNDER CONSTRUCTION</h2>
 
-  <h3>SQL Skills &amp; Tasks Performed as a Data Analyst</h3>
 
-  <!-- Data Cleaning & Preparation -->
-  <h4> Data Cleaning &amp; Preparation</h4>
-  <ul>
-    <li>Remove duplicates using <code>ROW_NUMBER()</code> or <code>DISTINCT</code></li>
-    <li>Handle missing values with <code>COALESCE()</code> / <code>IS NULL</code></li>
-    <li>Format and standardize strings using <code>LOWER()</code>, <code>TRIM()</code></li>
-    <li>Round numerical values with <code>ROUND()</code>, <code>FLOOR()</code>, <code>CEIL()</code></li>
-    <li>Rename or drop irrelevant columns</li>
-    <li>Convert data types with <code>CAST()</code> or <code>CONVERT()</code></li>
-  </ul>
-
-  <!-- Exploratory Data Analysis -->
-  <h4> Exploratory Data Analysis (EDA)</h4>
-  <ul>
-    <li>Use <code>SELECT DISTINCT</code> to understand value ranges</li>
-    <li>Count rows and nulls with <code>COUNT()</code> and <code>IS NULL</code></li>
-    <li>Generate descriptive stats: <code>AVG()</code>, <code>MAX()</code>, <code>MIN()</code>, <code>SUM()</code></li>
-    <li>Group data for distributions using <code>GROUP BY</code></li>
-    <li>Use <code>DESCRIBE</code> or schema inspection for metadata</li>
-  </ul>
-
-  <!-- Data Aggregation & Reporting -->
-  <h4> Data Aggregation &amp; Reporting</h4>
-  <ul>
-    <li>Aggregate key metrics by category or time (e.g., sales by month)</li>
-    <li>Analyze time trends with <code>GROUP BY MONTH()</code> / <code>DATE()</code></li>
-    <li>Compute percent of total using <code>SUM(...)</code> <code>OVER ()</code></li>
-    <li>Create running totals and moving averages with window functions</li>
-    <li>Rank items using <code>RANK()</code>, <code>ROW_NUMBER()</code></li>
-  </ul>
-
-  <!-- Joining & Merging Data -->
-  <h4> Joining &amp; Merging Data</h4>
-  <ul>
-    <li>Perform <code>INNER</code>, <code>LEFT</code>, <code>RIGHT</code>, and <code>FULL OUTER JOINs</code></li>
-    <li>Use <code>UNION</code> / <code>UNION ALL</code> to stack datasets</li>
-    <li>Apply self-joins for within-table comparisons</li>
-    <li>Merge multiple sources into clean datasets for analysis</li>
-  </ul>
-
-  <!-- Data Validation & QA -->
-  <h4> Data Validation &amp; Quality Assurance</h4>
-  <ul>
-    <li>Detect and remove duplicate rows</li>
-    <li>Identify and fill or filter <code>NULL</code> values</li>
-    <li>Validate ranges and categorical values</li>
-    <li>Apply business rules and checks for data integrity</li>
-  </ul>
 </section>
 
  <section id="tableau">
