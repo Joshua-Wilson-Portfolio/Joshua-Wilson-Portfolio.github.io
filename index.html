@@ -291,10 +291,10 @@ Total_OH_Tracks
 ---------------
 7
   </pre>
-</code>-- Tracks between 120–140 BPM
+</code> -- Tracks between 120–140 BPM
 SELECT COUNT(*) AS No_Tracks_Between_120_and_140
 FROM edmhits
-WHERE Tempo BETWEEN 120 AND 140;</code>
+WHERE Tempo BETWEEN 120 AND 140; </code>
   </pre>
 
   <h4>🟢 Output – (No_Tracks_Between_120_and_140)</h4>
@@ -305,7 +305,7 @@ No_Tracks_Between_120_and_140
     
   </pre>
    
-<code>-- Find the top 5 artists by average track duration
+<code> -- Find the top 5 artists by average track duration
 SELECT Artist, AVG(duration)
 FROM edmhits
 GROUP BY Artist
