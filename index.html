@@ -465,9 +465,12 @@ FROM rymcombined
 GROUP BY title, artist
 HAVING COUNT(*)>1 LIMIT 10;
 </pre>
-
-SELECT * FROM rymcombined ORDER BY title; -- Lets view again to ensure no duplicates upon glance of data 
-</pre>
+<pre><code>
+SELECT * 
+FROM rymcombined
+ORDER BY title
+LIMIT 10;   -- limit for readability
+</code></pre>
 
    <h4>🟢 Output – (First 10 Rows with Revenue & Track ID)</h4>
 <pre>
