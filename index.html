@@ -212,7 +212,7 @@ DESCRIBE edmhits;
 | Popularity        | int     | YES  |     | NULL    |       |
 +-------------------+---------+------+-----+---------+-------+
 </pre>
-SELECT * FROM edmhits;
+<code>SELECT * FROM edmhits LIMIT 10; <code>
   </pre>
 <h4>🟢 Output – (First 10 Rows)</h4>
 <pre>
@@ -239,18 +239,57 @@ SET SQL_SAFE_UPDATES = 0;
 UPDATE edmhits SET Tempo = ROUND(Tempo);
 SET SQL_SAFE_UPDATES = 1;
   </pre>
-
+<h4>🟢 Output – (View first 5 updated Tempo Values) (Sample)</h4>
+<pre>
+Tempo
+-----
+128
+138
+130
+133
+126
+</pre>
+  
   <h3>4. Remove Unused Columns</h3>
   <pre>
-ALTER TABLE edmhits DROP COLUMN Mode;
-ALTER TABLE edmhits DROP COLUMN Time_Signature;
+ALTER TABLE edmhits 
+DROP COLUMN Mode;
+ALTER TABLE edmhits
+DROP COLUMN Time_Signature;
+DESCRIBE edmhits;
   </pre>
-
-  <h3>5. Exploratory Analysis on edmhits</h3>
+<h4>🟢 Output – (Updated Fields) </h4>
+<pre>
+Field             Type      Null  Key  Default  Extra
+-----------------------------------------------------
+Track             text      YES        NULL    	
+Artist            text      YES        NULL    	
+Album             text      YES        NULL    	
+Year              int       YES        NULL    	
+Duration          int       YES        NULL    	
+Danceability      double    YES        NULL    	
+Energy            double    YES        NULL    	
+Key               int       YES        NULL    	
+Loudness          double    YES        NULL    	
+Speechiness       double    YES        NULL    	
+Acousticness      double    YES        NULL    	
+Instrumentalness  double    YES        NULL    	
+Liveness          double    YES        NULL    	
+Valence           double    YES        NULL    	
+Tempo             double    YES        NULL    	
+Popularity        int       YES        NULL    	
+</pre>
+  
+  <h3>5. General Querying / Filtering on edmhits</h3>
   <pre>
 -- Tracks by Oliver Heldens
 SELECT COUNT(*) FROM edmhits WHERE artist = 'oliver heldens';
-
+<h4>🟢 Output – (Total_OH_Tracks)</h4>
+<pre>
+Total_OH_Tracks
+---------------
+7
+</pre>
 -- Tracks between 120–140 BPM
 SELECT COUNT(*) FROM edmhits WHERE Tempo BETWEEN 120 AND 140;
 
