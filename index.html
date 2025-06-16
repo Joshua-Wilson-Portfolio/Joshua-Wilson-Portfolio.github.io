@@ -336,12 +336,24 @@ SELECT * FROM rymcombined LIMIT 3;   -- View Data
 </pre>
 <h4>🟢 Output – (DESCRIBE rymcombined)</h4>
 <pre>
-<!-- paste metadata output here -->
+Field             Type             Null  Key  Default  Extra
+------------------------------------------------------------
+Year              text             YES         NULL
+Artist            text             YES         NULL
+Title             text             YES         NULL
+Genre             text             YES         NULL
+Streams(Millions) int              YES         NULL
 </pre>
-<h4>🟢 Output – (First 3 Rows)</h4>
+
+<h4>🟢 Output – (First 3 Rows of rymcombined)</h4>
 <pre>
-<!-- paste first-rows output here -->
+Year   | Artist           | Title                     | Genre        | Streams(Millions)
+----------------------------------------------------------------------------------------
+2016   | The Chainsmokers | Closer                    | Future Bass  | 2873
+2017   | The Chainsmokers | Something Just Like This  | Future Bass  | 2588
+       | Dua Lipa         | Don't Start Now           | Nu-Disco     | 2458
 </pre>
+
 
 <!-- 7. Remove Redundant Column ---------------------------------- -->
 <h3>7. Remove Redundant Column <code>Year</code></h3>
@@ -349,12 +361,19 @@ SELECT * FROM rymcombined LIMIT 3;   -- View Data
 ALTER TABLE rymcombined   -- Remove column that is redundant / mostly NULL
 DROP COLUMN Year;
 
-SHOW TABLES;              -- Check columns dropped successfully
+DESCRIBE rymcombined;              -- Check columns dropped successfully
 </pre>
-<h4>🟢 Output – (Column <code>Year</code> Dropped)</h4>
+
+<h4>🟢 Output – (DESCRIBE rymcombined after dropping Year)</h4>
 <pre>
-<!-- paste confirmation output here -->
+Field              | Type    | Null | Key | Default | Extra
+-----------------------------------------------------------
+Artist             | text    | YES  |     | NULL    |       
+Title              | text    | YES  |     | NULL    |       
+Genre              | text    | YES  |     | NULL    |       
+Streams(Millions)  | int     | YES  |     | NULL    |       
 </pre>
+
 
 <!-- 8. Add Generated Revenue Column ----------------------------- -->
 <h3>8. Add Generated <code>revenue</code> Column</h3>
@@ -368,7 +387,16 @@ SELECT Title, revenue
 FROM rymcombined
 LIMIT 5;    -- Verify new column
 </pre>
-<h4>🟢 Output – (Revenu
+<h4>🟢 Output – (Title and Revenue)</h4>
+<pre>
+title                         | revenue
+----------------------------------------
+Closer                        | 9.7682
+Something Just Like This      | 8.7992
+Don't Start Now              | 8.3572
+Wake Me Up                   | 7.7044
+Happier                      | 7.2726
+</pre>
 
 
 
