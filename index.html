@@ -398,7 +398,156 @@ Wake Me Up                   | 7.7044
 Happier                      | 7.2726
 </pre>
 
+<h3>7. Detect & Remove Duplicates in rymcombined</h3>
 
+<pre>
+-- I want to ensure no duplicates in the song title, lets first glance data for potential duplicates 
+SELECT * FROM rymcombined ORDER BY title LIMIT 10;
+</pre>
+<h4>🟢 Output – (Sample Records with Revenue)</h4>
+<pre>
+Artist           | Title              | Genre             | Streams(Millions) | Revenue
+-----------------------------------------------------------------------------------------
+Martin Solveig   | +1                 | Future House      | 100               | 0.3400
+Peggy Gou        | (It Goes Like) Nanana | Euro House     | 435               | 1.4790
+The Chainsmokers | #SELFIE            | Electro House     | 239               | 0.8126
+The Chainsmokers | #SELFIE            | Melbourne Bounce  | 249               | 0.8466
+will.i.am        | #thatPOWER         | Big Room House    | 259               | 0.8806
+will.i.am        | #thatPOWER         | Electro House     | 259               | 0.8806
+Nathan Dawe      | 0800 HEAVEN        | Euro-Trance       | 59                | 0.2006
+Mura Masa        | 1 Night            | Tropical House    | 41                | 0.1394
+Mura Masa        | 1 Night            | Future Bass       | 41                | 0.1394
+Tiësto           | 10:35              | Slap House        | 567               | 1.9278
+</pre>
+
+<pre>
+SELECT title, artist , COUNT(*) as duplicate_count -- Lets view all duplicates
+FROM rymcombined
+GROUP BY title, artist
+HAVING COUNT(*)>1 LIMT 10;
+</pre>
+<h4>🟢 Output – (Duplicate Records by Title & Artist)</h4>
+<pre>
+Title                     | Artist              | Duplicate_Count
+---------------------------------------------------------------
+Cold Heart                | PNAU                | 2
+Levitating                | Dua Lipa            | 2
+We Found Love             | Rihanna             | 2
+Titanium                 | David Guetta        | 2
+Passionfruit              | Drake               | 2
+Silence                   | Marshmello          | 2
+Summer                    | Calvin Harris       | 2
+More Than You Know        | Axwell /\ Ingrosso  | 2
+Rather Be                 | Clean Bandit        | 2
+Sugar                     | Robin Schulz        | 3
+</pre>
+
+<pre>
+-- Lets remove these duplicates
+ALTER TABLE rymcombined ADD COLUMN track_id INT AUTO_INCREMENT PRIMARY KEY; -- No Primary Key or row identifier columnn, therefore create as such namely title_id 
+
+SET SQL_SAFE_UPDATES = 0; -- Temporarily disable safe update mode
+WITH RankedSongs AS (
+  SELECT *, 
+         ROW_NUMBER() OVER (PARTITION BY title, artist ORDER BY track_id) AS rn
+  FROM rymcombined
+)
+DELETE FROM rymcombined
+WHERE track_id IN (
+  SELECT track_id FROM RankedSongs WHERE rn > 1
+);
+SET SQL_SAFE_UPDATES = 1; -- Turn safe update mode back on
+</pre>
+
+<pre>
+SELECT title, artist , COUNT(*) as duplicate_count -- Ensure all duplicates removed successfully 
+FROM rymcombined
+GROUP BY title, artist
+HAVING COUNT(*)>1 LIMIT 10;
+</pre>
+
+SELECT * FROM rymcombined ORDER BY title; -- Lets view again to ensure no duplicates upon glance of data 
+</pre>
+
+   <h4>🟢 Output – (First 10 Rows with Revenue & Track ID)</h4>
+<pre>
+Artist           | Title                      | Genre           | Streams(Millions) | Revenue  | Track_ID
+-----------------------------------------------------------------------------------------------------------
+Martin Solveig   | +1                         | Future House     | 100               | 0.3400   | 1385
+Peggy Gou        | (It Goes Like) Nanana      | Euro House       | 435               | 1.4790   | 200
+The Chainsmokers | #SELFIE                    | Melbourne Bounce | 249               | 0.8466   | 414
+will.i.am        | #thatPOWER                 | Electro House    | 259               | 0.8806   | 282
+Nathan Dawe      | 0800 HEAVEN                | Euro-Trance      | 59                | 0.2006   | 2084
+Mura Masa        | 1 Night                    | Future Bass      | 41                | 0.1394   | 2976
+Tiësto           | 10:35                      | Slap House       | 567               | 1.9278   | 728
+KAYTRANADA       | 10%                        | Deep House       | 123               | 0.4182   | 1113
+Branchez         | 11 Hours                   |                  | 35                | 0.1190   | 3495
+MK               | 17                         | Garage House     | 211               | 0.7174   | 725
+</pre>
+
+
+<h3>8. Update Missing Genre Values</h3>
+
+<pre>
+-- Lets add some missing values
+SELECT title, artist, track_id, Genre FROM rymcombined ORDER BY Genre ASC;
+</pre>
+<h4>🟢 Output – (Records with Missing Genre)</h4>
+<pre>
+Title                    | Artist       | Track_ID | Genre
+-----------------------------------------------------------
+Radar                   | Whethan      | 3854     | 
+Vibe                    | Mike Candys  | 3944     | 
+lift me from the ground | San Holo     | 3811     | 
+Beautiful               | Kygo         | 3945     | 
+Gomd                    | Sickick      | 3813     | 
+</pre>
+
+<pre>
+-- Update Calvin Harris - I'm Not Alone 2019 Remix Genre from NULL to Progressive House
+SELECT * FROM rymcombined WHERE track_id = 3701;
+</pre>
+<h4>🟢 Output – (Calvin Harris Track Genre Missing)</h4>
+<pre>
+Artist         | Title                         | Genre | Streams(Millions) | revenue | track_id
+----------------------------------------------------------------------------------------------
+Calvin Harris  | I'm Not Alone - 2019 Remix    |       | 31                | 0.1054  | 3701
+</pre>
+
+<pre>
+UPDATE rymcombined 
+SET Genre ='Progressive House'
+WHERE track_id = 3701;
+
+SELECT * FROM rymcombined WHERE track_id = 3701;
+<h4>🟢 Output – (Updated Genre for Calvin Harris Track)</h4>
+<pre>
+Artist         | Title                         | Genre             | Streams(Millions) | revenue | track_id
+-----------------------------------------------------------------------------------------------------------
+Calvin Harris  | I'm Not Alone - 2019 Remix    | Progressive House | 31                | 0.1054  | 3701
+</pre>
+
+
+
+<h3>9. Join edmhits and rymcombined</h3>
+
+<pre>
+-- I need to combine my 2 tables to ensure appropriate data collated for analysis 
+SELECT * FROM edmhits
+INNER JOIN rymcombined
+ON edmhits.Track=rymcombined.Title ORDER BY revenue DESC LIMIT 5 OFFSET 20;
+</pre>
+
+  <h4>🟢 Output – (Joined edmhits & rymcombined Tables)</h4>
+<pre>
+Track               | Artist         | Album          | Year | Duration | Danceability | Energy | Key | Loudness | Speechiness | Acousticness | Instrumentalness | Liveness | Valence | Tempo | Popularity | Artist         | Title         | Genre                      | Streams(Millions) | revenue | track_id
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+How Deep Is Your Love | Calvin Harris | How Deep Is Your Love | 2015 | 212640 | 0.738 | 0.868 | 11 | -4.373 | 0.0731 | 0.0392 | 0.00169 | 0.388 | 0.336 | 122 | 81 | Calvin Harris | How Deep Is Your Love | Future House              | 1112 | 3.7808 | 193
+Let Me Go             | Duke Dumont   | Duality               | 2015 | 366117 | 0.531 | 0.814 | 8  | -5.8   | 0.0364 | 0.000245 | 0.335  | 0.121 | 0.0501 | 128 | 34 | Hailee Steinfeld | Let Me Go         | Tropical House           | 1099 | 3.7366 | 205
+Firestone             | Kygo          | Cloud Nine            | 2015 | 271640 | 0.704 | 0.634 | 11 | -7.374 | 0.0428 | 0.393   | 0.0000317 | 0.0952 | 0.411 | 114 | 78 | Kygo            | Firestone         | Tropical House           | 1091 | 3.7094 | 210
+Middle                | DJ Snake      | Encore                | 2016 | 220573 | 0.583 | 0.695 | 9  | -5.336 | 0.0423 | 0.0138  | 0         | 0.0527 | 0.224 | 105 | 75 | DJ Snake        | Middle            | Tropical House           | 1060 | 3.6040 | 217
+Without You           | Dillon Francis| Without You           | 2017 | 246000 | 0.717 | 0.637 | 0  | -3.401 | 0.0347 | 0.250   | 0.306     | 0.347  | 0.392 | 120 | 32 | Avicii          | Without You       | Festival Progressive House | 1054 | 3.5836 | 232
+</pre>
 
 
 
