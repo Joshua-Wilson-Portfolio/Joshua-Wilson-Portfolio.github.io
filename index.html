@@ -168,76 +168,75 @@
   </section>
 
  <section id="sql">
-  <h2>SQL Projects – SPOTIFY – UNDER CONSTRUCTION 1 </h2>
+  <h2>SQL Project – Spotify Data Cleaning & Analysis</h2>
 
+  <!-- 1 ─────────────────────────────────────────────────────────── -->
   <h3>1. Create & Use Database</h3>
--- Create Database for use 
-CREATE DATABASE spotify_data; 
+  <pre>
+CREATE DATABASE spotify_data;
 USE spotify_data;
-SHOW TABLES; -- Ensure Table is correctly showing in Database
-<h4>🟢 Output </h4>
-<pre>
+SHOW TABLES;
+  </pre>
+  <h4>🟢 Output – (Tables_in_spotify_data)</h4>
+  <pre>
 Tables_in_spotify_data
 -----------------------
 edmhits
 rymcombined
-</pre>
-   
-  <h3>2. Inspect edmhits Table</h3>
-  <pre>
--- View edmhits table details
-DESCRIBE edmhits; -- View metadata 
-</code></pre>
-<h4>🟢 Output </h4>
-<pre>
-+-------------------+---------+------+-----+---------+-------+
-| Field             | Type    | Null | Key | Default | Extra |
-+-------------------+---------+------+-----+---------+-------+
-| Track             | text    | YES  |     | NULL    |       |
-| Artist            | text    | YES  |     | NULL    |       |
-| Album             | text    | YES  |     | NULL    |       |
-| Year              | int     | YES  |     | NULL    |       |
-| Duration          | int     | YES  |     | NULL    |       |
-| Time_Signature    | int     | YES  |     | NULL    |       |
-| Danceability      | double  | YES  |     | NULL    |       |
-| Energy            | double  | YES  |     | NULL    |       |
-| Key               | int     | YES  |     | NULL    |       |
-| Loudness          | double  | YES  |     | NULL    |       |
-| Mode              | int     | YES  |     | NULL    |       |
-| Speechiness       | double  | YES  |     | NULL    |       |
-| Acousticness      | double  | YES  |     | NULL    |       |
-| Instrumentalness  | double  | YES  |     | NULL    |       |
-| Liveness          | double  | YES  |     | NULL    |       |
-| Valence           | double  | YES  |     | NULL    |       |
-| Tempo             | double  | YES  |     | NULL    |       |
-| Popularity        | int     | YES  |     | NULL    |       |
-+-------------------+---------+------+-----+---------+-------+
-</pre>
-<code>SELECT * FROM edmhits LIMIT 10; -- View first 10 rows of Data  <code>
   </pre>
-<h4>🟢 Output – (First 10 Rows)</h4>
-Track                                                  | Artist        | Album                                      | Year | Duration | Time_Signature | Danceability | Energy | Key | Loudness | Mode | Speechiness | Acousticness | Instrumentalness | Liveness | Valence | Tempo   | Popularity
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-All Over The World - Above & Beyond Extended Club Mix  | Above & Beyond| The Club Mix Collection                    | 2009 | 412266   | 4              | 0.65         | 0.816  | 0   | -5.749   | 1    | 0.0476      | 0.00471      | 0.458             | 0.0896   | 0.519   | 128.012 | 9
-Alone Tonight - Above & Beyond Club Mix (Edit)         | Above & Beyond| The Club Mix Collection                    | 2009 | 206400   | 4              | 0.506        | 0.822  | 3   | -8.63    | 0    | 0.0497      | 0.255        | 0.0516            | 0.0775   | 0.37    | 137.909 | 33
-Blue Sky Action - Above & Beyond Extended Club Mix     | Above & Beyond| Blue Sky Action                            | 2014 | 400226   | 4              | 0.691        | 0.581  | 5   | -6.563   | 1    | 0.0386      | 0.000701     | 0.0311            | 0.0855   | 0.265   | 130.014 | 16
-Can't Sleep - Radio Edit                               | Above & Beyond| Can't Sleep                                | 2013 | 192866   | 4              | 0.641        | 0.932  | 7   | -5.797   | 0    | 0.0658      | 0.0657       | 0.0353            | 0.0600   | 0.335   | 132.991 | 38
-Happiness Amplified                                    | Above & Beyond| Common Ground                              | 2019 | 332946   | 4              | 0.482        | 0.525  | 1   | -10.987  | 1    | 0.0408      | 0.0894       | 0.000507          | 0.0652   | 0.0867  | 125.985 | 34
-No One On Earth - Gabriel & Dresden Remix              | Above & Beyond| A State Of Trance 1000                     | 2009 | 73840    | 3              | 0.533        | 0.907  | 1   | -6.942   | 1    | 0.0366      | 0.00598      | 0.846             | 0.3190   | 0.388   | 130.027 | 21
-On a Good Day - Above & Beyond Radio Edit              | Above & Beyond| On A Good Day                              | 2009 | 221360   | 4              | 0.600        | 0.783  | 6   | -7.265   | 1    | 0.0254      | 0.0320       | 0.00665           | 0.2070   | 0.818   | 136.002 | 20
-Sun & Moon                                             | Above & Beyond| Acoustic                                   | 2011 | 288026   | 4              | 0.480        | 0.406  | 6   | -11.467  | 0    | 0.0308      | 0.766        | 0.00000177        | 0.1220   | 0.196   | 136.804 | 36
-Thing Called Love - Original Mix                       | Above & Beyond| Group Therapy                              | 2011 | 329333   | 4              | 0.492        | 0.870  | 3   | -6.703   | 0    | 0.0367      | 0.00155      | 0.0157            | 0.3260   | 0.280   | 134.019 | 40
-We’re All We Need - SpectraSoul Remix                  | Above & Beyond| Anjunabeats presents Drum & Bass 01        | 2015 | 242790   | 4              | 0.546        | 0.870  | 5   | -4.551   | 0    | 0.0418      | 0.000159     | 0.159             | 0.4580   | 0.217   | 171.996 | 24
-   
-  <h3>3. Clean Tempo Values</h3>
 
-<code>SET SQL_SAFE_UPDATES = 0;  -- Temporarily disable safe update mode
-UPDATE edmhits
-SET Tempo= ROUND(Tempo);
-SELECT Tempo FROM edmhits LIMIT 5; -- View Data 
-SET SQL_SAFE_UPDATES = 1; </code
+  <!-- 2 ─────────────────────────────────────────────────────────── -->
+  <h3>2. Inspect <code>edmhits</code> Table</h3>
+  <pre>
+DESCRIBE edmhits;
   </pre>
-<h4>🟢 Output – (View first 5 updated Tempo Values) </h4>
+  <h4>🟢 Output – (DESCRIBE edmhits)</h4>
+  <pre>
+Field             Type    Null  Key  Default  Extra
+---------------------------------------------------
+Track             text    YES         NULL
+Artist            text    YES         NULL
+Album             text    YES         NULL
+Year              int     YES         NULL
+Duration          int     YES         NULL
+Time_Signature    int     YES         NULL
+Danceability      double  YES         NULL
+Energy            double  YES         NULL
+Key               int     YES         NULL
+Loudness          double  YES         NULL
+Mode              int     YES         NULL
+Speechiness       double  YES         NULL
+Acousticness      double  YES         NULL
+Instrumentalness  double  YES         NULL
+Liveness          double  YES         NULL
+Valence           double  YES         NULL
+Tempo             double  YES         NULL
+Popularity        int     YES         NULL
+  </pre>
+
+  <pre>
+SELECT * FROM edmhits LIMIT 10;
+  </pre>
+  <h4>🟢 Output – (First 10 Rows)</h4>
+  <pre>
+Track                                                    | Artist         | Album                     | Year | Duration | Time_Signature | Danceability | Energy | Key | Loudness | Mode | Speechiness | Acousticness | Instrumentalness | Liveness | Valence | Tempo    | Popularity
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+All Over The World - Above & Beyond Extended Club Mix     | Above & Beyond | The Club Mix Collection   | 2009 | 412266   | 4              | 0.650        | 0.816  | 0   | -5.749   | 1    | 0.0476      | 0.00471      | 0.458            | 0.0896   | 0.519   | 128.012  | 9
+Alone Tonight - Above & Beyond Club Mix (Edit)            | Above & Beyond | The Club Mix Collection   | 2009 | 206400   | 4              | 0.506        | 0.822  | 3   | -8.630   | 0    | 0.0497      | 0.255        | 0.0516           | 0.0775   | 0.370   | 137.909  | 33
+Blue Sky Action - Above & Beyond Extended Club Mix        | Above & Beyond | Blue Sky Action           | 2014 | 400226   | 4              | 0.691        | 0.581  | 5   | -6.563   | 1    | 0.0386      | 0.000701     | 0.0311           | 0.0855   | 0.265   | 130.014  | 16
+(…7 more rows…)
+  </pre>
+
+  <!-- 3 ─────────────────────────────────────────────────────────── -->
+  <h3>3. Clean Tempo Values</h3>
+  <pre>
+SET SQL_SAFE_UPDATES = 0;
+UPDATE edmhits SET Tempo = ROUND(Tempo);
+SELECT Tempo FROM edmhits LIMIT 5;
+SET SQL_SAFE_UPDATES = 1;
+  </pre>
+  <h4>🟢 Output – (First 5 Rounded Tempo Values)</h4>
+  <pre>
 Tempo
 -----
 128
@@ -245,97 +244,68 @@ Tempo
 130
 133
 126
-  
+  </pre>
+
+  <!-- 4 ─────────────────────────────────────────────────────────── -->
   <h3>4. Remove Unused Columns</h3>
-
-</code>-- Remove irrelvant columns 
-ALTER TABLE edmhits 
-DROP COLUMN Mode;
+  <pre>
 ALTER TABLE edmhits
-DROP COLUMN Time_Signature;
-DESCRIBE edmhits; -- Check columns dropped successfully </code>
-  
-<h4>🟢 Output – (Updated Fields) </h4>
-Field             Type      Null  Key  Default  Extra
------------------------------------------------------
-Track             text      YES        NULL    	
-Artist            text      YES        NULL    	
-Album             text      YES        NULL    	
-Year              int       YES        NULL    	
-Duration          int       YES        NULL    	
-Danceability      double    YES        NULL    	
-Energy            double    YES        NULL    	
-Key               int       YES        NULL    	
-Loudness          double    YES        NULL    	
-Speechiness       double    YES        NULL    	
-Acousticness      double    YES        NULL    	
-Instrumentalness  double    YES        NULL    	
-Liveness          double    YES        NULL    	
-Valence           double    YES        NULL    	
-Tempo             double    YES        NULL    	
-Popularity        int       YES        NULL    	
+  DROP COLUMN Mode,
+  DROP COLUMN Time_Signature;
 
-  <h3>5. General Querying / Filtering on edmhits</h3>
-  <
-<code> -- Tracks by Oliver Heldens
-SELECT COUNT(*) FROM edmhits WHERE artist = 'oliver heldens'; <code>
-<h4>🟢 Output – (Total_OH_Tracks)</h4>
+DESCRIBE edmhits;
+  </pre>
+  <h4>🟢 Output – (Updated Fields)</h4>
+  <pre>
+Field             Type    Null  Key  Default  Extra
+---------------------------------------------------
+Track             text    YES         NULL
+Artist            text    YES         NULL
+Album             text    YES         NULL
+Year              int     YES         NULL
+Duration          int     YES         NULL
+Danceability      double  YES         NULL
+Energy            double  YES         NULL
+Key               int     YES         NULL
+Loudness          double  YES         NULL
+Speechiness       double  YES         NULL
+Acousticness      double  YES         NULL
+Instrumentalness  double  YES         NULL
+Liveness          double  YES         NULL
+Valence           double  YES         NULL
+Tempo             double  YES         NULL
+Popularity        int     YES         NULL
+  </pre>
 
+  <!-- 5 ─────────────────────────────────────────────────────────── -->
+  <h3>5. General Filtering / Counts on <code>edmhits</code></h3>
+  <pre>
+-- Tracks by Oliver Heldens
+SELECT COUNT(*) AS Total_OH_Tracks
+FROM edmhits
+WHERE artist = 'oliver heldens';
+
+-- Tracks between 120–140 BPM
+SELECT COUNT(*) AS No_Tracks_Between_120_and_140
+FROM edmhits
+WHERE Tempo BETWEEN 120 AND 140;
+  </pre>
+
+  <h4>🟢 Output – (Total_OH_Tracks)</h4>
+  <pre>
 Total_OH_Tracks
 ---------------
 7
+  </pre>
 
-<code>-- Tracks between 120–140 BPM
-SELECT COUNT(*) FROM edmhits WHERE Tempo BETWEEN 120 AND 140; <code>
+  <h4>🟢 Output – (No_Tracks_Between_120_and_140)</h4>
+  <pre>
 No_Tracks_Between_120_and_140
 -----------------------------
 421
--- Top 5 artists by average duration
-SELECT Artist, AVG(duration) 
-FROM edmhits
-GROUP BY Artist
-ORDER BY AVG(duration) DESC
-LIMIT 5;
   </pre>
-
-  <h3>6. Inspect rymcombined Table</h3>
-  <pre>
-DESCRIBE rymcombined;
-SELECT * FROM rymcombined;
-  </pre>
-
-  <h3>7. Remove Redundant Columns</h3>
-  <pre>
-ALTER TABLE rymcombined DROP COLUMN Year;
-  </pre>
-
-  <h3>8. Add Revenue Column</h3>
-  <pre>
-ALTER TABLE rymcombined
-ADD COLUMN revenue FLOAT 
-GENERATED ALWAYS AS (`Streams(Millions)` * 0.0034) STORED;
-  </pre>
-
-  <h3>9. Detect & Remove Duplicates</h3>
-  <pre>
-ALTER TABLE rymcombined ADD COLUMN track_id INT AUTO_INCREMENT PRIMARY KEY;
-
-SET SQL_SAFE_UPDATES = 0;
-WITH RankedSongs AS (
-  SELECT *, ROW_NUMBER() OVER (PARTITION BY title, artist ORDER BY track_id) AS rn
-  FROM rymcombined
-)
-DELETE FROM rymcombined
-WHERE track_id IN (
-  SELECT track_id FROM RankedSongs WHERE rn > 1
-);
-SET SQL_SAFE_UPDATES = 1;
-  </pre>
-
-  <h3>10. Fix
-
-   
 </section>
+
 
  <section id="tableau">
   <h2>Tableau Dashboards</h2>
