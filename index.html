@@ -176,24 +176,17 @@ CREATE DATABASE spotify_data;
 USE spotify_data;
 SHOW TABLES;
   </pre>
-<h4>🟢 Output – Step 1: Create & Use Database</h4>
+<h4>🟢 Output </h4>
 <pre>
 Tables_in_spotify_data
 -----------------------
 edmhits
 rymcombined
 </pre>
-   
   <h3>2. Inspect edmhits Table</h3>
   <pre>
 DESCRIBE edmhits;
-<!-- ─── 2. View edmhits Table Details ─────────────────────────── -->
-<h3>2. View <code>edmhits</code> Table Details</h3>
-
-<pre><code>
-DESCRIBE edmhits;
 </code></pre>
-
 <h4>🟢 Output – <code>DESCRIBE edmhits</code></h4>
 <pre>
 +-------------------+---------+------+-----+---------+-------+
@@ -219,7 +212,6 @@ DESCRIBE edmhits;
 | Popularity        | int     | YES  |     | NULL    |       |
 +-------------------+---------+------+-----+---------+-------+
 </pre>
-    
 SELECT * FROM edmhits;
   </pre>
 <h4>🟢 Output – <code>SELECT * FROM edmhits</code> (Sample Rows)</h4>
