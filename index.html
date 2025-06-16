@@ -176,13 +176,71 @@ CREATE DATABASE spotify_data;
 USE spotify_data;
 SHOW TABLES;
   </pre>
-
+<h4>🟢 Output – Step 1: Create & Use Database</h4>
+<pre>
+Tables_in_spotify_data
+-----------------------
+edmhits
+rymcombined
+</pre>
+   
   <h3>2. Inspect edmhits Table</h3>
   <pre>
 DESCRIBE edmhits;
+<!-- ─── 2. View edmhits Table Details ─────────────────────────── -->
+<h3>2. View <code>edmhits</code> Table Details</h3>
+
+<pre><code>
+DESCRIBE edmhits;
+</code></pre>
+
+<h4>🟢 Output – <code>DESCRIBE edmhits</code></h4>
+<pre>
++-------------------+---------+------+-----+---------+-------+
+| Field             | Type    | Null | Key | Default | Extra |
++-------------------+---------+------+-----+---------+-------+
+| Track             | text    | YES  |     | NULL    |       |
+| Artist            | text    | YES  |     | NULL    |       |
+| Album             | text    | YES  |     | NULL    |       |
+| Year              | int     | YES  |     | NULL    |       |
+| Duration          | int     | YES  |     | NULL    |       |
+| Time_Signature    | int     | YES  |     | NULL    |       |
+| Danceability      | double  | YES  |     | NULL    |       |
+| Energy            | double  | YES  |     | NULL    |       |
+| Key               | int     | YES  |     | NULL    |       |
+| Loudness          | double  | YES  |     | NULL    |       |
+| Mode              | int     | YES  |     | NULL    |       |
+| Speechiness       | double  | YES  |     | NULL    |       |
+| Acousticness      | double  | YES  |     | NULL    |       |
+| Instrumentalness  | double  | YES  |     | NULL    |       |
+| Liveness          | double  | YES  |     | NULL    |       |
+| Valence           | double  | YES  |     | NULL    |       |
+| Tempo             | double  | YES  |     | NULL    |       |
+| Popularity        | int     | YES  |     | NULL    |       |
++-------------------+---------+------+-----+---------+-------+
+</pre>
+    
 SELECT * FROM edmhits;
   </pre>
+<h4>🟢 Output – <code>SELECT * FROM edmhits</code> (Sample Rows)</h4>
+<pre>
+Track                                                  | Artist        | Album                                      | Year | Duration | Time_Signature | Danceability | Energy | Key | Loudness | Mode | Speechiness | Acousticness | Instrumentalness | Liveness | Valence | Tempo   | Popularity
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+All Over The World - Above & Beyond Extended Club Mix  | Above & Beyond| The Club Mix Collection                    | 2009 | 412266   | 4              | 0.65         | 0.816  | 0   | -5.749   | 1    | 0.0476      | 0.00471      | 0.458             | 0.0896   | 0.519   | 128.012 | 9
+Alone Tonight - Above & Beyond Club Mix (Edit)         | Above & Beyond| The Club Mix Collection                    | 2009 | 206400   | 4              | 0.506        | 0.822  | 3   | -8.63    | 0    | 0.0497      | 0.255        | 0.0516            | 0.0775   | 0.37    | 137.909 | 33
+Blue Sky Action - Above & Beyond Extended Club Mix     | Above & Beyond| Blue Sky Action                            | 2014 | 400226   | 4              | 0.691        | 0.581  | 5   | -6.563   | 1    | 0.0386      | 0.000701     | 0.0311            | 0.0855   | 0.265   | 130.014 | 16
+Can't Sleep - Radio Edit                               | Above & Beyond| Can't Sleep                                | 2013 | 192866   | 4              | 0.641        | 0.932  | 7   | -5.797   | 0    | 0.0658      | 0.0657       | 0.0353            | 0.0600   | 0.335   | 132.991 | 38
+Happiness Amplified                                    | Above & Beyond| Common Ground                              | 2019 | 332946   | 4              | 0.482        | 0.525  | 1   | -10.987  | 1    | 0.0408      | 0.0894       | 0.000507          | 0.0652   | 0.0867  | 125.985 | 34
+No One On Earth - Gabriel & Dresden Remix              | Above & Beyond| A State Of Trance 1000                     | 2009 | 73840    | 3              | 0.533        | 0.907  | 1   | -6.942   | 1    | 0.0366      | 0.00598      | 0.846             | 0.3190   | 0.388   | 130.027 | 21
+On a Good Day - Above & Beyond Radio Edit              | Above & Beyond| On A Good Day                              | 2009 | 221360   | 4              | 0.600        | 0.783  | 6   | -7.265   | 1    | 0.0254      | 0.0320       | 0.00665           | 0.2070   | 0.818   | 136.002 | 20
+Sun & Moon                                             | Above & Beyond| Acoustic                                   | 2011 | 288026   | 4              | 0.480        | 0.406  | 6   | -11.467  | 0    | 0.0308      | 0.766        | 0.00000177        | 0.1220   | 0.196   | 136.804 | 36
+Thing Called Love - Original Mix                       | Above & Beyond| Group Therapy                              | 2011 | 329333   | 4              | 0.492        | 0.870  | 3   | -6.703   | 0    | 0.0367      | 0.00155      | 0.0157            | 0.3260   | 0.280   | 134.019 | 40
+We’re All We Need - SpectraSoul Remix                  | Above & Beyond| Anjunabeats presents Drum & Bass 01        | 2015 | 242790   | 4              | 0.546        | 0.870  | 5   | -4.551   | 0    | 0.0418      | 0.000159     | 0.159             | 0.4580   | 0.217   | 171.996 | 24
+</pre>
 
+
+
+   
   <h3>3. Clean Tempo Values</h3>
   <pre>
 SET SQL_SAFE_UPDATES = 0;
