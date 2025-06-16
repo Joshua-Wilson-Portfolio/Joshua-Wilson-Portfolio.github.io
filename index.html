@@ -247,7 +247,7 @@
 
 
   <!-- 1 ─────────────────────────────────────────────────────────── -->
-  <h3>1. Create & Use Database</h3>
+<h3 id="create-db">1. Create & Use Database</h3>
   <pre>
 CREATE DATABASE spotify_data;
 USE spotify_data;
@@ -262,7 +262,7 @@ rymcombined
   </pre>
 
   <!-- 2 ─────────────────────────────────────────────────────────── -->
-  <h3>2. Inspect edmhits Table</h3>
+<h3 id="inspect-edmhits">2. Inspect edmhits Table</h3>
   <pre>
 DESCRIBE edmhits;
   </pre>
@@ -303,7 +303,7 @@ Blue Sky Action - Above & Beyond Extended Club Mix        | Above & Beyond | Blu
   </pre>
 
   <!-- 3 ─────────────────────────────────────────────────────────── -->
-  <h3>3. Clean Tempo Values</h3>
+<h3 id="clean-tempo">3. Clean Tempo Values</h3>
   <pre>
 SET SQL_SAFE_UPDATES = 0;
 UPDATE edmhits SET Tempo = ROUND(Tempo);
@@ -322,7 +322,7 @@ Tempo
   </pre>
 
   <!-- 4 ─────────────────────────────────────────────────────────── -->
-  <h3>4. Remove Unused Columns</h3>
+<h3 id="drop-columns">4. Remove Unused Columns</h3>
   <pre>
 ALTER TABLE edmhits
   DROP COLUMN Mode,
@@ -353,7 +353,7 @@ Popularity        int     YES         NULL
   </pre>
 
   <!-- 5 ─────────────────────────────────────────────────────────── -->
-  <h3>5. General Filtering / Counts on edmhits</h3>
+ <h3 id="filtering">5. General Filtering / Counts on edmhits</h3>
   <pre>
 <code> -- How many Tracks in this Table are produced by oliver heldens?
 SELECT COUNT(*) AS Total_OH_Tracks
@@ -404,7 +404,7 @@ Paul Oakenfold        | 317104.3333
 
 
 <!-- 6. Clean & Enhance rymcombined Table                          -->
-<h3>6. Clean & Enhance <code>rymcombined</code> Table</h3>
+<h3 id="clean-rym">6. Clean & Enhance <code>rymcombined</code> Table</h3>
 <pre>
 -- View rymcombined table details
 DESCRIBE rymcombined;                -- View metadata 
@@ -432,7 +432,7 @@ Year   | Artist           | Title                     | Genre        | Streams(M
 
 
 <!-- 7. Remove Redundant Column ---------------------------------- -->
-<h3>7. Remove Redundant Column <code>Year</code></h3>
+<h3 id="drop-year">7. Remove Redundant Column <code>Year</code></h3>
 <pre>
 ALTER TABLE rymcombined   -- Remove column that is redundant / mostly NULL
 DROP COLUMN Year;
@@ -452,7 +452,7 @@ Streams(Millions)  | int     | YES  |     | NULL    |
 
 
 <!-- 8. Add Generated Revenue Column ----------------------------- -->
-<h3>8. Add Generated revenue Column</h3>
+<h3 id="add-revenue">8. Add Generated revenue Column</h3>
 <pre>
 /* Add total Spotify revenue per track (streams × £0.0034) */
 ALTER TABLE rymcombined
@@ -474,7 +474,7 @@ Wake Me Up                   | 7.7044
 Happier                      | 7.2726
 </pre>
 
-<h3>7. Detect & Remove Duplicates in rymcombined</h3>
+<h3 id="remove-duplicates">9. Detect & Remove Duplicates in rymcombined</h3>
 
 <pre>
 -- I want to ensure no duplicates in the song title, lets first glance data for potential duplicates 
@@ -566,7 +566,7 @@ MK               | 17                         | Garage House     | 211          
 </pre>
 
 
-<h3>8. Update Missing Genre Values</h3>
+<h3 id="update-missing">10. Update Missing Genre Values</h3>
 
 <pre>
 -- Lets add some missing values
@@ -608,7 +608,7 @@ Calvin Harris  | I'm Not Alone - 2019 Remix    | Progressive House | 31         
 </pre>
 
 
-<!-- 9. Join edmhits and rymcombined----------------------------- -->
+<h3 id="join">11. Join edmhits and rymcombined</h3>
 
 <pre>
 -- I need to combine my 2 tables to ensure appropriate data collated for analysis 
