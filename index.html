@@ -215,16 +215,15 @@ Popularity        int     YES         NULL
   </pre>
 
   <pre>
-SELECT * FROM edmhits LIMIT 10;
+SELECT * FROM edmhits LIMIT 3;
   </pre>
-  <h4>🟢 Output – (First 10 Rows)</h4>
+  <h4>🟢 Output – (First 3 Rows)</h4>
   <pre>
 Track                                                    | Artist         | Album                     | Year | Duration | Time_Signature | Danceability | Energy | Key | Loudness | Mode | Speechiness | Acousticness | Instrumentalness | Liveness | Valence | Tempo    | Popularity
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 All Over The World - Above & Beyond Extended Club Mix     | Above & Beyond | The Club Mix Collection   | 2009 | 412266   | 4              | 0.650        | 0.816  | 0   | -5.749   | 1    | 0.0476      | 0.00471      | 0.458            | 0.0896   | 0.519   | 128.012  | 9
 Alone Tonight - Above & Beyond Club Mix (Edit)            | Above & Beyond | The Club Mix Collection   | 2009 | 206400   | 4              | 0.506        | 0.822  | 3   | -8.630   | 0    | 0.0497      | 0.255        | 0.0516           | 0.0775   | 0.370   | 137.909  | 33
 Blue Sky Action - Above & Beyond Extended Club Mix        | Above & Beyond | Blue Sky Action           | 2014 | 400226   | 4              | 0.691        | 0.581  | 5   | -6.563   | 1    | 0.0386      | 0.000701     | 0.0311           | 0.0855   | 0.265   | 130.014  | 16
-(…7 more rows…)
   </pre>
 
   <!-- 3 ─────────────────────────────────────────────────────────── -->
@@ -278,17 +277,12 @@ Popularity        int     YES         NULL
   </pre>
 
   <!-- 5 ─────────────────────────────────────────────────────────── -->
-  <h3>5. General Filtering / Counts on <code>edmhits</code></h3>
+  <h3>5. General Filtering / Counts on edmhits</h3>
   <pre>
--- Tracks by Oliver Heldens
+<code>-- Tracks by Oliver Heldens
 SELECT COUNT(*) AS Total_OH_Tracks
 FROM edmhits
-WHERE artist = 'oliver heldens';
-
--- Tracks between 120–140 BPM
-SELECT COUNT(*) AS No_Tracks_Between_120_and_140
-FROM edmhits
-WHERE Tempo BETWEEN 120 AND 140;
+WHERE artist = 'oliver heldens';</code>
   </pre>
 
   <h4>🟢 Output – (Total_OH_Tracks)</h4>
@@ -297,13 +291,43 @@ Total_OH_Tracks
 ---------------
 7
   </pre>
+</code>-- Tracks between 120–140 BPM
+SELECT COUNT(*) AS No_Tracks_Between_120_and_140
+FROM edmhits
+WHERE Tempo BETWEEN 120 AND 140;</code>
+  </pre>
 
   <h4>🟢 Output – (No_Tracks_Between_120_and_140)</h4>
   <pre>
 No_Tracks_Between_120_and_140
 -----------------------------
 421
+    
   </pre>
+   
+<code>-- Find the top 5 artists by average track duration
+SELECT Artist, AVG(duration)
+FROM edmhits
+GROUP BY Artist
+ORDER BY AVG(duration) DESC
+LIMIT 5;</code>
+</pre>
+
+<h4>🟢 Output – (Top 5 Artists by Average Duration)</h4>
+<pre>
+Artist                | AVG(duration)
+--------------------------------------
+Infected Mushroom     | 459548.2500
+Carl Cox              | 350725.5000
+Eric Prydz            | 341654.0000
+The Chemical Brothers | 321516.4000
+Paul Oakenfold        | 317104.3333
+</pre>
+
+
+
+
+   
 </section>
 
 
