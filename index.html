@@ -171,7 +171,27 @@
   <h2>SQL Project – Spotify </h2>
    
     <p>Here you will see my SQL project focused on cleaning, enhancing, and analyzing two Spotify-related datasets: edmhits and rymcombined. You will see how I import, clean and manage these data sets. Along with querying and joining.  </p>
+   
+ <div class="jump-menu">
+      <strong>Jump to:</strong>
+      <a href="#db-setup">Database Setup</a>
+      <a href="#inspect">Inspection</a>
+      <a href="#clean-edmhits">Clean edmhits</a>
+      <a href="#clean-rym">Clean rymcombined</a>
+      <a href="#dedupe">De-duplicate</a>
+      <a href="#missing-values">Missing Values</a>
+      <a href="#join">Join Tables</a>
+    </div>
 
+    <ul>
+      <li id="db-setup"><strong>Database Setup</strong>: Created <code>spotify_data</code> with two tables: <code>edmhits</code> and <code>rymcombined</code>.</li>
+      <li id="inspect"><strong>Inspection</strong>: Inspected schema with <code>DESCRIBE</code> and <code>SELECT *</code> queries.</li>
+      <li id="clean-edmhits"><strong>Clean edmhits</strong>: Rounded tempo, dropped unused columns, and conducted filtering.</li>
+      <li id="clean-rym"><strong>Clean rymcombined</strong>: Dropped <code>Year</code>, added <code>revenue</code> column (streams × £0.0034).</li>
+      <li id="dedupe"><strong>De-duplicate</strong>: Used <code>ROW_NUMBER()</code> and <code>DELETE</code> to remove duplicates.</li>
+      <li id="missing-values"><strong>Missing Values</strong>: Identified and updated missing <code>Genre</code> entries.</li>
+      <li id="join"><strong>Join Tables</strong>: Performed <code>INNER JOIN</code> on <code>Track = Title</code> and sorted by <code>revenue</code>.</li>
+    </ul>
    <h3>✅ Key Steps &amp; Achievements</h3>
 
 <ul>
