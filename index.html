@@ -178,107 +178,76 @@
 
  <section id="sql">
   <h2>SQL Projects – SPOTIFY – UNDER CONSTRUCTION</h2>
-
-<!-- ────────────────────────────────────────────────────────────── -->
-<!--   SQL TAB CONTENT – SPOTIFY DATA CLEANING & ANALYSIS          -->
-<!--   Paste everything between <section id="sql"> … </section>    -->
-<!-- ────────────────────────────────────────────────────────────── -->
 <section id="sql">
   <h2>SQL Project – Spotify Data Cleaning & Analysis</h2>
 
-  <!-- 1. Create & Select Database -->
-  <h3>1 🗄️ Create & Select Database</h3>
-  <pre><code>
-CREATE DATABASE spotify_data; 
+  <h3>1. Create & Use Database</h3>
+  <pre>
+CREATE DATABASE spotify_data;
 USE spotify_data;
 SHOW TABLES;
-  </code></pre>
+  </pre>
 
-  <!-- 2. Inspect edmhits -->
-  <h3>2 🔍 Inspect <code>edmhits</code></h3>
-  <pre><code>
+  <h3>2. Inspect edmhits Table</h3>
+  <pre>
 DESCRIBE edmhits;
-SELECT * FROM edmhits LIMIT 5;
-  </code></pre>
+SELECT * FROM edmhits;
+  </pre>
 
-  <!-- 3. Clean Tempo -->
-  <h3>3 🧹 Clean Tempo Values</h3>
-  <pre><code>
+  <h3>3. Clean Tempo Values</h3>
+  <pre>
 SET SQL_SAFE_UPDATES = 0;
-UPDATE edmhits
-SET Tempo = ROUND(Tempo);
+UPDATE edmhits SET Tempo = ROUND(Tempo);
 SET SQL_SAFE_UPDATES = 1;
-  </code></pre>
+  </pre>
 
-  <!-- 4. Drop Irrelevant Columns -->
-  <h3>4 🧯 Drop Irrelevant Columns</h3>
-  <pre><code>
-ALTER TABLE edmhits 
-  DROP COLUMN Mode,
-  DROP COLUMN Time_Signature;
-  </code></pre>
+  <h3>4. Remove Unused Columns</h3>
+  <pre>
+ALTER TABLE edmhits DROP COLUMN Mode;
+ALTER TABLE edmhits DROP COLUMN Time_Signature;
+  </pre>
 
-  <!-- 5. Exploratory Queries -->
-  <h3>5 📊 Exploratory Queries on <code>edmhits</code></h3>
-  <pre><code>
+  <h3>5. Exploratory Analysis on edmhits</h3>
+  <pre>
 -- Tracks by Oliver Heldens
-SELECT COUNT(*) AS Total_OH_Tracks
-FROM edmhits
-WHERE artist = 'oliver heldens';
+SELECT COUNT(*) FROM edmhits WHERE artist = 'oliver heldens';
 
--- Tracks between 120-140 BPM
-SELECT COUNT(*) AS No_Tracks_Between_120_and_140
-FROM edmhits
-WHERE Tempo BETWEEN 120 AND 140;
+-- Tracks between 120–140 BPM
+SELECT COUNT(*) FROM edmhits WHERE Tempo BETWEEN 120 AND 140;
 
 -- Top 5 artists by average duration
-SELECT Artist, AVG(duration) AS avg_duration
+SELECT Artist, AVG(duration) 
 FROM edmhits
 GROUP BY Artist
-ORDER BY avg_duration DESC
+ORDER BY AVG(duration) DESC
 LIMIT 5;
-  </code></pre>
+  </pre>
 
-  <!-- 6. Inspect rymcombined -->
-  <h3>6 🔍 Inspect <code>rymcombined</code></h3>
-  <pre><code>
+  <h3>6. Inspect rymcombined Table</h3>
+  <pre>
 DESCRIBE rymcombined;
-SELECT * FROM rymcombined LIMIT 5;
-  </code></pre>
+SELECT * FROM rymcombined;
+  </pre>
 
-  <!-- 7. Drop Year column -->
-  <h3>7 🧯 Drop Redundant Column</h3>
-  <pre><code>
+  <h3>7. Remove Redundant Columns</h3>
+  <pre>
 ALTER TABLE rymcombined DROP COLUMN Year;
-  </code></pre>
+  </pre>
 
-  <!-- 8. Add Revenue -->
-  <h3>8 💰 Add Generated <code>revenue</code> Column</h3>
-  <pre><code>
+  <h3>8. Add Revenue Column</h3>
+  <pre>
 ALTER TABLE rymcombined
-ADD COLUMN revenue FLOAT
+ADD COLUMN revenue FLOAT 
 GENERATED ALWAYS AS (`Streams(Millions)` * 0.0034) STORED;
-  </code></pre>
+  </pre>
 
-  <!-- 9. Detect Duplicates -->
-  <h3>9 🧬 Detect Possible Duplicates</h3>
-  <pre><code>
-SELECT title, artist, COUNT(*) AS duplicate_count
-FROM rymcombined
-GROUP BY title, artist
-HAVING COUNT(*) > 1;
-  </code></pre>
-
-  <!-- 10. Remove Duplicates -->
-  <h3>10 🧼 Remove Duplicates with <code>ROW_NUMBER()</code></h3>
-  <pre><code>
-ALTER TABLE rymcombined
-  ADD COLUMN track_id INT AUTO_INCREMENT PRIMARY KEY;
+  <h3>9. Detect & Remove Duplicates</h3>
+  <pre>
+ALTER TABLE rymcombined ADD COLUMN track_id INT AUTO_INCREMENT PRIMARY KEY;
 
 SET SQL_SAFE_UPDATES = 0;
 WITH RankedSongs AS (
-  SELECT *,
-         ROW_NUMBER() OVER (PARTITION BY title, artist ORDER BY track_id) AS rn
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY title, artist ORDER BY track_id) AS rn
   FROM rymcombined
 )
 DELETE FROM rymcombined
@@ -286,35 +255,11 @@ WHERE track_id IN (
   SELECT track_id FROM RankedSongs WHERE rn > 1
 );
 SET SQL_SAFE_UPDATES = 1;
-  </code></pre>
+  </pre>
 
-  <!-- 11. Verify -->
-  <h3>11 ✅ Verify Duplicate Removal</h3>
-  <pre><code>
-SELECT title, artist, COUNT(*)
-FROM rymcombined
-GROUP BY title, artist
-HAVING COUNT(*) > 1;
-  </code></pre>
+  <h3>10. Fix
 
-  <!-- 12. Fix Genres -->
-  <h3>12 🛠 Fix Missing Genres</h3>
-  <pre><code>
-UPDATE rymcombined
-SET Genre = 'Progressive House'
-WHERE track_id IN (4141, 4132);
-  </code></pre>
-
-  <!-- 13. Final Join -->
-  <h3>13 🔗 Join Cleaned Tables for Analysis</h3>
-  <pre><code>
-SELECT *
-FROM edmhits AS e
-INNER JOIN rymcombined AS r
-  ON e.Track = r.Title;
-  </code></pre>
-</section>
-
+   
 </section>
 
  <section id="tableau">
