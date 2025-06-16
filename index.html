@@ -186,7 +186,7 @@ rymcombined
   </pre>
 
   <!-- 2 ─────────────────────────────────────────────────────────── -->
-  <h3>2. Inspect <code>edmhits</code> Table</h3>
+  <h3>2. Inspect edmhits Table</h3>
   <pre>
 DESCRIBE edmhits;
   </pre>
@@ -376,7 +376,7 @@ Streams(Millions)  | int     | YES  |     | NULL    |
 
 
 <!-- 8. Add Generated Revenue Column ----------------------------- -->
-<h3>8. Add Generated <code>revenue</code> Column</h3>
+<h3>8. Add Generated revenue Column</h3>
 <pre>
 /* Add total Spotify revenue per track (streams × £0.0034) */
 ALTER TABLE rymcombined
@@ -528,8 +528,7 @@ Calvin Harris  | I'm Not Alone - 2019 Remix    | Progressive House | 31         
 </pre>
 
 
-
-<h3>9. Join edmhits and rymcombined</h3>
+<!-- 9. Join edmhits and rymcombined----------------------------- -->
 
 <pre>
 -- I need to combine my 2 tables to ensure appropriate data collated for analysis 
